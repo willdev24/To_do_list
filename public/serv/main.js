@@ -21,10 +21,10 @@ const Main = {
 
         })
 
-        this.$listaDtarefas.addEventListener("keypress", self.Events.listaDtarefas_click.bind(this))
+        this.$listaDtarefas.addEventListener("keypress" , this.Events.listaDtarefas_click.bind(this))
 
         this.$removeButtons.forEach(function(butons){
-            butons.addEventListener("click", self.Events.removeButtons_click)
+            butons.addEventListener("click",  self.Events.removeButtons_click)
 
         })
 
@@ -47,21 +47,31 @@ const Main = {
 // como evitar isso? :precisa ser passado na hora de chmar a funçao o : bind(this)
         listaDtarefas_click: function(e){
             const valor = e.target.value
+            const tecla = e.key
+     
+            if (tecla == "Enter") { 
+                
+                if(valor.length > 0){
+                const mostrarTarefas = ` 
+                <li>
+                <div class="check"></div> 
+                <label class="task">${valor}</label>
+                <button class="remove"></button>
+                </li>`       
+                
+                this.$addLista.innerHTML += mostrarTarefas 
     
-        if (e.key == "Enter") { 
+                        }
 
-            
-    const mostrarTarefas = ` 
-    <li>
-    <div class="check"></div> 
-    <label class="task">${valor}</label>
-    <button class="remove"></button>
-    </li>`       
-        this.$addLista.innerHTML += mostrarTarefas 
-        e.target.value= ""
-        this.cacheSelectors()
-        this.bindEvents()
-    }},
+
+                     this.cacheSelectors()
+                     this.bindEvents()
+                     return   e.target.value= ""
+        
+    }
+     
+   
+},
 
 
         removeButtons_click: function(e){
@@ -74,7 +84,6 @@ const Main = {
        },300)
         
         
-
 
     }
 }}
