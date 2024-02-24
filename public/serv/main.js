@@ -1,3 +1,5 @@
+
+
 const Main = {
 
     init: function(){
@@ -17,17 +19,12 @@ const Main = {
         const self = this
  
         this.$checkbuttons.forEach(function(butons){
-            butons.addEventListener("click", self.Events.checkbutton_click)
-
-        })
+            butons.addEventListener("click", self.Events.checkbutton_click)})
 
         this.$listaDtarefas.addEventListener("keypress" , this.Events.listaDtarefas_click.bind(this))
 
         this.$removeButtons.forEach(function(butons){
-            butons.addEventListener("click",  self.Events.removeButtons_click)
-
-        })
-
+            butons.addEventListener("click",  self.Events.removeButtons_click)})
 
         },
 
@@ -48,7 +45,9 @@ const Main = {
         listaDtarefas_click: function(e){
             const valor = e.target.value
             const tecla = e.key
-     
+            const listasde = [] 
+            const listas = {}
+
             if (tecla == "Enter") { 
                 
                 if(valor.length > 0){
@@ -59,36 +58,28 @@ const Main = {
                 <button class="remove"></button>
                 </li>`       
                 
-                this.$addLista.innerHTML += mostrarTarefas 
-    
-                        }
-
-
-                     this.cacheSelectors()
-                     this.bindEvents()
-                     return   e.target.value= ""
-        
+                this.$addLista.innerHTML += mostrarTarefas
+            
+        }
+                    this.cacheSelectors()
+                    this.bindEvents()
+                    e.target.value= ""
     }
-     
-   
 },
 
 
         removeButtons_click: function(e){
         const li = e.target.offsetParent
-      
-         li.classList.add("animation")
+    
+        li.classList.add("animation")
 
-       setTimeout( function(){ 
+    setTimeout( function(){ 
         li.classList.add("removed")
-       },300)
+    },300)
         
-        
-
     }
 }}
 
 
 Main.init()
-
 
