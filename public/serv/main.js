@@ -2,11 +2,16 @@
 
 const Main = {
 
+tasks:[],
+
     init: function(){
-              
+
         this.cacheSelectors()
         this.bindEvents()
+        this.gitStorage()
+        this.construirTasks()    
     },
+
 
     cacheSelectors: function(){
         this.$checkbuttons = document.querySelectorAll(".check")
@@ -28,7 +33,34 @@ const Main = {
 
         },
 
-     Events: {
+    gitStorage: function(){
+
+            const localS = localStorage.getItem("kapspai")
+            this.tasks = JSON.parse(localS)
+        
+        },
+
+    construirTasks: function(){ 
+        let html = ""
+
+        this.tasks.forEach(function(iten){
+            
+            html  += `
+            <li>
+            <div class="check"></div> 
+            <label class="task">${iten.kaps}</label>
+            <button class="remove"></button>
+            </li>`       
+            
+        })
+        this.$addLista.innerHTML = html 
+        this.cacheSelectors()
+        this.bindEvents()
+    
+        },
+    
+
+    Events: {
         checkbutton_click: function(e){
             const li = e.target.parentElement //caminho para encontrar a minha li
 //contains: verifica se a variavel ja tem ou nao um valor expecifico
@@ -45,25 +77,30 @@ const Main = {
         listaDtarefas_click: function(e){
             const valor = e.target.value
             const tecla = e.key
-            const listasde = [] 
-            const listas = {}
-
+        
             if (tecla == "Enter") { 
                 
                 if(valor.length > 0){
-                const mostrarTarefas = ` 
+                
+                this.$addLista.innerHTML += ` 
                 <li>
                 <div class="check"></div> 
                 <label class="task">${valor}</label>
                 <button class="remove"></button>
-                </li>`       
-                
-                this.$addLista.innerHTML += mostrarTarefas
-            
+                </li>`      
+
+                const save = localStorage.getItem("kapspai")
+                const saveobjeto = JSON.parse(save)
+
+                const obj = [{kaps:valor}, ...saveobjeto]  
+                localStorage.setItem("kapspai", JSON.stringify(obj))
+
         }
-                    this.cacheSelectors()
-                    this.bindEvents()
-                    e.target.value= ""
+        this.cacheSelectors()
+        this.bindEvents()
+        e.target.value= ""
+
+    
     }
 },
 
