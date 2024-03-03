@@ -10,14 +10,16 @@ tasks:[],
         this.bindEvents()
         this.gitStorage()
         this.construirTasks()    
+        
     },
 
 
     cacheSelectors: function(){
         this.$checkbuttons = document.querySelectorAll(".check")
         this.$listaDtarefas = document.querySelector("#inputTask")
-        this.$addLista = document.querySelector(".list")
         this.$removeButtons = document.querySelectorAll(".remove")
+        this.$addLista = document.querySelector(".list")
+       
     },
    
     bindEvents: function(){
@@ -29,7 +31,7 @@ tasks:[],
         this.$listaDtarefas.addEventListener("keypress" , this.Events.listaDtarefas_click.bind(this))
 
         this.$removeButtons.forEach(function(butons){
-            butons.addEventListener("click",  self.Events.removeButtons_click)})
+            butons.addEventListener("click",  self.Events.removeButtons_click.bind(self))})
 
         },
 
@@ -42,17 +44,19 @@ tasks:[],
 
     construirTasks: function(){ 
         let html = ""
+    
 
         this.tasks.forEach(function(iten){
             
             html  += `
-            <li>
+            <li id="teste">
             <div class="check"></div> 
             <label class="task">${iten.kaps}</label>
-            <button class="remove"></button>
+            <button class="remove" data-local="${iten.kaps}"></button>
             </li>`       
             
         })
+
         this.$addLista.innerHTML = html 
         this.cacheSelectors()
         this.bindEvents()
@@ -83,10 +87,10 @@ tasks:[],
                 if(valor.length > 0){
                 
                 this.$addLista.innerHTML += ` 
-                <li>
+                <li id="teste">
                 <div class="check"></div> 
                 <label class="task">${valor}</label>
-                <button class="remove"></button>
+                <button class="remove" data-local="${valor}"></button>
                 </li>`      
 
                 const save = localStorage.getItem("kapspai")
@@ -95,26 +99,41 @@ tasks:[],
                 const obj = [{kaps:valor}, ...saveobjeto]  
                 localStorage.setItem("kapspai", JSON.stringify(obj))
 
+                this.cacheSelectors()
+                this.bindEvents()
+                e.target.value= ""
+        
+            
         }
-        this.cacheSelectors()
-        this.bindEvents()
-        e.target.value= ""
-
-    
     }
 },
 
 
         removeButtons_click: function(e){
         const li = e.target.offsetParent
-    
+      const dataLocal = e.target.dataset.local
+
+
+const newTask = this.tasks.findIndex( lista => lista.kaps == dataLocal)
+
+this.tasks.splice(newTask,1)
+const atualizar = JSON.stringify(this.tasks)
+console.log(this.tasks)
+
+localStorage.setItem("kapspai",atualizar)
+
+
         li.classList.add("animation")
 
     setTimeout( function(){ 
         li.classList.add("removed")
     },300)
-        
+
+    
+    
+
     }
+
 }}
 
 
