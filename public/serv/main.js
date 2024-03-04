@@ -35,6 +35,17 @@ tasks:[],
 
         },
 
+        corpohtml: function(valores){
+
+        return    `
+            <li id="teste">
+            <div class="check"></div> 
+            <label class="task">${valores}</label>
+            <button class="remove" data-local="${valores}"></button>
+            </li>`
+
+        },
+
     gitStorage: function(){
 
             const localS = localStorage.getItem("kapspai")
@@ -48,16 +59,11 @@ tasks:[],
 
         this.tasks.forEach(function(iten){
             
-            html  += `
-            <li id="teste">
-            <div class="check"></div> 
-            <label class="task">${iten.kaps}</label>
-            <button class="remove" data-local="${iten.kaps}"></button>
-            </li>`       
+            html  += this.corpohtml(iten.kaps)      
             
         })
 
-        this.$addLista.innerHTML = html 
+        this.$addLista.innerHTML 
         this.cacheSelectors()
         this.bindEvents()
     
@@ -86,12 +92,7 @@ tasks:[],
                 
                 if(valor.length > 0){
                 
-                this.$addLista.innerHTML += ` 
-                <li id="teste">
-                <div class="check"></div> 
-                <label class="task">${valor}</label>
-                <button class="remove" data-local="${valor}"></button>
-                </li>`      
+                this.$addLista.innerHTML += this.corpohtml(valor)
 
                 const save = localStorage.getItem("kapspai")
                 const saveobjeto = JSON.parse(save)
