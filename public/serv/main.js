@@ -9,7 +9,8 @@ tasks:[],
         this.cacheSelectors()
         this.bindEvents()
         this.gitStorage()
-        this.construirTasks()    
+        this.construirTasks()   
+        console.log(this.tasks) 
         
     },
 
@@ -56,14 +57,13 @@ tasks:[],
     construirTasks: function(){ 
         let html = ""
     
-
-        this.tasks.forEach(function(iten){
+        this.tasks.forEach( itens =>{
             
-            html  += this.corpohtml(iten.kaps)      
+            html += this.corpohtml(itens.kaps)      
             
         })
 
-        this.$addLista.innerHTML 
+        this.$addLista.innerHTML = html
         this.cacheSelectors()
         this.bindEvents()
     
@@ -109,7 +109,6 @@ tasks:[],
     }
 },
 
-
         removeButtons_click: function(e){
         const li = e.target.offsetParent
       const dataLocal = e.target.dataset.local
@@ -129,10 +128,7 @@ localStorage.setItem("kapspai",atualizar)
     setTimeout( function(){ 
         li.classList.add("removed")
     },300)
-
     
-    
-
     }
 
 }}
